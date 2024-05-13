@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Pilotiv.DbMigrator.Postgres.Options;
 
@@ -22,6 +23,6 @@ public static class MigratorManager
             .AddMigration(dbSettingsOptions.ConnectionString)
             .BuildServiceProvider(false);
 
-        return new MigrationRunner(serviceProvider);
+        return serviceProvider.GetService<MigrationRunner>() ?? throw new NullReferenceException();
     }
 }

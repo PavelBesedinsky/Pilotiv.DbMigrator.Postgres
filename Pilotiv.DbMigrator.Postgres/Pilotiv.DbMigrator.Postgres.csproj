@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <Title>Pilotiv Database Migrator For PostgreSQL</Title>
         <Description>Database migrator based on FluentMigrator.</Description>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 

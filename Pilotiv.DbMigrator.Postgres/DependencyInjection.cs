@@ -16,6 +16,8 @@ public static class DependencyInjection
                 .ScanIn(Assembly.GetExecutingAssembly()).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
 
+        services.AddScoped<MigrationRunner>();
+        
         return services;
     }
 }

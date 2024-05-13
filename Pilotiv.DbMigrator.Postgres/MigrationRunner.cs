@@ -14,6 +14,11 @@ public class MigrationRunner
         _migrationRunner = serviceProvider.GetRequiredService<IMigrationRunner>();
     }
 
+    public MigrationRunner(IMigrationRunner migrationRunner)
+    {
+        _migrationRunner = migrationRunner;
+    }
+
     public RunStatus CheckDatabase(CheckOptions options)
     {
         return TryRun(_migrationRunner.ValidateVersionOrder);
