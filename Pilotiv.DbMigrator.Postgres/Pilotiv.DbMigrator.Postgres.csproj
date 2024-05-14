@@ -6,13 +6,14 @@
         <Nullable>enable</Nullable>
         <Title>Pilotiv Database Migrator For PostgreSQL</Title>
         <Description>Database migrator based on FluentMigrator.</Description>
-        <Version>0.3.0</Version>
+        <Version>0.4.0</Version>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.9.1" />
       <PackageReference Include="FluentMigrator.Runner.Postgres" Version="5.2.0" />
+      <PackageReference Include="Npgsql" Version="8.0.3" />
     </ItemGroup>
 
 </Project>
