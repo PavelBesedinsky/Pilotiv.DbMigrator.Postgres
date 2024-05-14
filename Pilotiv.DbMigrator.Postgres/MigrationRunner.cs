@@ -1,6 +1,5 @@
 ﻿using System;
 using FluentMigrator.Runner;
-using Microsoft.Extensions.DependencyInjection;
 using Pilotiv.DbMigrator.Postgres.Options;
 
 namespace Pilotiv.DbMigrator.Postgres;
@@ -8,12 +7,7 @@ namespace Pilotiv.DbMigrator.Postgres;
 public class MigrationRunner
 {
     private readonly IMigrationRunner _migrationRunner;
-
-    public MigrationRunner(IServiceProvider serviceProvider)
-    {
-        _migrationRunner = serviceProvider.GetRequiredService<IMigrationRunner>();
-    }
-
+    
     public MigrationRunner(IMigrationRunner migrationRunner)
     {
         _migrationRunner = migrationRunner;
