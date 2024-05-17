@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Dapper;
 using FluentMigrator.Runner;
+using Npgsql;
 using Pilotiv.DbMigrator.Postgres.Options;
 
 namespace Pilotiv.DbMigrator.Postgres;
@@ -7,7 +10,7 @@ namespace Pilotiv.DbMigrator.Postgres;
 public class MigrationRunner
 {
     private readonly IMigrationRunner _migrationRunner;
-    
+
     public MigrationRunner(IMigrationRunner migrationRunner)
     {
         _migrationRunner = migrationRunner;
@@ -18,8 +21,10 @@ public class MigrationRunner
         return TryRun(_migrationRunner.ValidateVersionOrder);
     }
 
-    public RunStatus UpDatabase(UpOptions options)
+    public async Task<RunStatus> UpDatabaseAsync(UpOptions options)
     {
+        await CreateDbAsync(options);
+
         if (options.UpTo.HasValue)
         {
             return TryRun(() => _migrationRunner.MigrateUp(options.UpTo.Value));
@@ -35,14 +40,20 @@ public class MigrationRunner
 
     private static RunStatus TryRun(Action action)
     {
-        try
+        action();
+        return RunStatus.Ok;
+    }
+
+    private static async Task CreateDbAsync(DbSettingsOptions options)
+    {
+        await using var connection = new NpgsqlConnection(options.MasterConnectionString);
+
+        var sqlDbCount = $"SELECT COUNT(*) FROM pg_database WHERE datname = '{options.Database}';";
+        var dbCount = await connection.ExecuteScalarAsync<int>(sqlDbCount);
+        if (dbCount is 0)
         {
-            action();
-            return RunStatus.Ok;
-        }
-        catch (Exception)
-        {
-            return RunStatus.Error;
+            var sql = $"CREATE DATABASE \"{options.Database}\"";
+            await connection.ExecuteAsync(sql);
         }
     }
 }

@@ -21,4 +21,7 @@ public class DbSettingsOptions
 
     public string ConnectionString =>
         $"Host={Host};Port={Port};Database={Database}; Username={UserId}; Password={Password};";
+
+    public string MasterConnectionString =>
+        $"Host={Host};Port={Port};Database=postgres; Username={UserId}; Password={Password};";
 }

@@ -2,6 +2,5 @@
 
 public enum RunStatus : byte
 {
-    Ok = 0,
-    Error = 1
+    Ok = 0
 }
